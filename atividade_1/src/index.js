@@ -1,17 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import Questao1 from './components/questao1/Questao1'
+import Questao2 from './components/questao2/Questao2'
+import Questao3Pai from './components/questao3/Questao3Pai'
+import Questao3Filho from './components/questao3/Questao3Filho'
+import Questao4Pai from './components/questao4/Questao4Pai'
+import Questao4Filho from './components/questao4/Questao4Filho'
+import Questao5PaiBootstrap from './components/questao5/Questao5PaiBootstrap'
+import Questao5PFilhoBootstrap from './components/questao5/Questao5FilhoBootstrap'
+const root = document.getElementById('root');
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+        <div>
+            <Questao1/>
+            <Questao2/>
+            <Questao3Filho>
+                <Questao3Pai nome="Chico" curso="Redes" cidade="Guaramiranga/CE"/>
+            </Questao3Filho>
+            <Questao4Filho>
+                <Questao4Pai nome="Maria" curso="EC" cidade="Fortaleza/CE"/>
+            </Questao4Filho>
+            <Questao5PFilhoBootstrap>
+                <Questao5PaiBootstrap nome="Joana" curso="CC" cidade="Quixadá/CE"/>
+            </Questao5PFilhoBootstrap>
+        </div>
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+,root);
