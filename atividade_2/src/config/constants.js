@@ -1,0 +1,2 @@
+export const URL_HERO = 'https://vignette.wikia.nocookie.net/vsbattles/images/3/34/Baki_render_2018.png/revision/latest/scale-to-width-down/340?cb=20181107143132'
+export const URL_ENEMY = 'https://i.pinimg.com/originals/7b/0c/25/7b0c25a9370889f98ccb8c91f5b606b2.png'
