@@ -1,16 +1,10 @@
 {
   "disciplinas": [
     {
-      "id": 1,
-      "nome": "WEB",
-      "curso": "SI",
-      "capacidade": 50
-    },
-    {
       "nome": "Lógica",
       "curso": "CC",
       "capacidade": "40",
-      "id": 2
+      "id": 1
     }
   ]
 }

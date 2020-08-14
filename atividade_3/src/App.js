@@ -28,12 +28,12 @@ export default class App extends Component {
             </div>
           </nav>
 
-          <h2>Atividade 3</h2><br/>
+          <h2>Atividade 3 e 4</h2><br/>
 
           <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/create' component={Create}/>
-            <Route path='/edit:id' component={Edit}/>
+            <Route path='/edit/:id' component={Edit}/>
             <Route path='/list' component={List}/>
           </Switch>
 
