@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react'
+import axios from 'axios'
 
 export default class Create extends Component {
     
     constructor(props){
         super(props)
-        this.state = {nome:''}
-        this.state = {curso: ''}
-        this.state = {capacidade: ''}
+        this.state = {nome:'', curso: '', capacidade: ''}
 
         this.setNome = this.setNome.bind(this)
         this.setCurso = this.setCurso.bind(this)
@@ -35,10 +33,11 @@ export default class Create extends Component {
                     curso:this.state.curso,
                     capacidade:this.state.capacidade}
 
-        axios.post('http://localhost:3001/disciplinas',novaDisciplina)
+        //axios.post('http://localhost:3001/disciplinas',novaDisciplina) //json-server
+        axios.post('http://localhost:3002/disciplinas/register', novaDisciplina) //express
         .then(
             (res)=>{
-                console.log(res.data.id)
+                console.log(res.data._id)
             }
         )
         .catch(
@@ -57,17 +56,17 @@ export default class Create extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div className='form-group'>
                         <label>Nome: </label>
-                        <input type='text' className='form-control' 
+                        <input type='text' required className='form-control' 
                                 value={this.state.nome} onChange={this.setNome}/>
                     </div>
                     <div className='form-group'>
                         <label>Curso: </label>
-                        <input type='text' className='form-control'
+                        <input type='text' required className='form-control'
                                 value={this.state.curso} onChange={this.setCurso}/>
                     </div>
                     <div className='form-group'>
                         <label>Capacidade: </label>
-                        <input type='text' className='form-control'
+                        <input type='number' required className='form-control'
                                 value={this.state.capacidade} onChange={this.setCapacidade}/>
                     </div>
                     <div className='form-group'>
