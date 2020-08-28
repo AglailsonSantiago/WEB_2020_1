@@ -17,13 +17,9 @@ router.put('/update/:id', function (req, res, next){
 });
 
 router.delete('/delete/:id', function (req, res, next){
-    const ok = disciplinaService.delete(req.prarams.id);
-    if(ok) {
-        return res.json({'sucess':true});
-    }
-    else{
-        return res.json({'sucess':false});
-    }
+    const ok = disciplinaService.delete(req.params.id);
+    if(ok) return res.json({'sucess': true});
+    else return res.json({'sucess': false});
 });
 
 router.get('/retrieve/:id', function (req, res, next){

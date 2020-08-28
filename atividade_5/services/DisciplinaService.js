@@ -1,6 +1,9 @@
 const DisciplinaModel = require('../models/DisciplinaModel')
-let disciplinas = []
-let _id = 0
+
+let disciplinas = [
+    {_id: "0", nome: "teste", curso: "DD", capacidade: "12"}
+]
+let _id = 1
 
 class DisciplinaService{
     static register(data){
@@ -8,10 +11,10 @@ class DisciplinaService{
             _id++,
             data.nome,
             data.curso,
-            data.capacidade
-        );
-        disciplinas.push(disciplina);
-        return disciplina;
+            data.capacidade)
+
+        disciplinas.push(disciplina)
+        return disciplina
     }
     static list(){
         return disciplinas;
@@ -30,7 +33,7 @@ class DisciplinaService{
     static delete(_id){
         for(let i = 0; i < disciplinas.length; i++){
             if(disciplinas[i]._id == _id){
-                disciplinas.splice(i,1);
+                disciplinas.splice(i, 1);
                 return true;
             }
         }
