@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import FirebaseContext from '../utils/FirebaseContext'
+import FirebaseService from '../services/FirebaseService'
 
-export default class Create extends Component {
+const CreatePage = () => (
+    <FirebaseContext.Consumer>
+        {firebase => <Create firebase={firebase} />}
+    </FirebaseContext.Consumer>
+)
+
+class Create extends Component {
     
     constructor(props){
         super(props)
@@ -26,27 +33,19 @@ export default class Create extends Component {
         this.setState({capacidade:e.target.value})
     }
 
-    onSubmit(e){
-
+    onSubmit(e) {
         e.preventDefault()
-        const novaDisciplina = {nome:this.state.nome,
-                    curso:this.state.curso,
-                    capacidade:this.state.capacidade}
-
-        //axios.post('http://localhost:3001/disciplinas',novaDisciplina) //json-server
-        axios.post('http://localhost:3002/disciplinas/register', novaDisciplina) //express
-        .then(
-            (res)=>{
-                console.log(res.data._id)
-            }
-        )
-        .catch(
-            (error)=>{
+        const disciplina = {
+            nome: this.state.nome,
+            curso: this.state.curso,
+            capacidade: this.state.capacidade
+        }
+        FirebaseService.create(this.props.firebase.getFirestore(),
+            (error) => {
                 console.log(error)
-            }
-        )
-        this.setState({nome:'', curso:'', capacidade:''})
-        
+            },
+            disciplina)
+        this.setState({ nome: '', curso: '', capacidade: '' })
     }
 
     render(){
@@ -77,3 +76,5 @@ export default class Create extends Component {
         )
     }
 }
+
+export default CreatePage;

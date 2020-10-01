@@ -1,31 +1,27 @@
-import React, {Component} from 'react'
-import Axios from 'axios'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import FirebaseService from '../services/FirebaseService'
 
 
-export default class TableRow extends Component{
+export default class TableRow extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.apagar = this.apagar.bind(this)
     }
 
-    apagar(){
-        //Axios.delete('http://localhost:3001/disciplinas/'+this.props.disciplina.id) // json-server
-        Axios.delete('http://localhost:3002/disciplinas/delete/'+this.props.disciplina._id) //express
-        .then(
-            (res)=>{
-                console.log("Registro apagado.")
-                this.props.apagarElementoPorId(this.props.disciplina._id)
-            }
-        )
-        .catch(
-            (error)=>console.log(error)
-        )
+    apagar(id, nome) {
+        let res = window.confirm(`Deseja apagar ${nome}?`)
+        if (res) {
+            FirebaseService.delete(this.props.firebase.getFirestore(),
+                (mensagem) => {
+                    console.log(mensagem)
+                }, id)
+        }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <tr>
                 <td>
                     {this.props.disciplina._id}
@@ -39,11 +35,15 @@ export default class TableRow extends Component{
                 <td>
                     {this.props.disciplina.capacidade}
                 </td>
-                <td style={{textAlign: "center"}}>
-                    <Link to={'/edit/'+ this.props.disciplina._id} className="btn btn-primary">Editar</Link>
+                <td style={{ textAlign: "center" }}>
+                    <Link to={'/edit/' + this.props.disciplina._id} className="btn btn-primary">Editar</Link>
                 </td>
-                <td style={{textAlign: "center"}}>
-                    <button onClick={this.apagar} className="btn btn-danger">Apagar</button>
+                <td style={{ textAlign: "center" }}>
+                    <button onClick={
+                        () => this.apagar(this.props.disciplina._id,
+                            this.props.disciplina.nome)
+                    }
+                        className="btn btn-danger">Apagar</button>
                 </td>
             </tr>
         )

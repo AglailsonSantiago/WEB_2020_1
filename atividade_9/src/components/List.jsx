@@ -1,61 +1,80 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import TableRow from './TableRow';
+import FirebaseContext from '../utils/FirebaseContext'
+import FirebaseService from '../services/FirebaseService'
 
-export default class List extends Component {
+
+const ListPage = () => (
+    <FirebaseContext.Consumer>
+        { contexto => <List firebase={contexto} />}
+    </FirebaseContext.Consumer>
+)
+
+class List extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { disciplinas: [] }
 
-        this.apagarElementoPorId = this.apagarElementoPorId.bind(this)
+        this._isMounted = false
+
+        this.state = { disciplinas: [], loading: false }
+
     }
 
-    componentDidMount(){
-        axios.get('http://localhost:3002/disciplinas/list')
-            .then(
-                (res) => {
-                    this.setState({ disciplinas: res.data})
-                }
-            )
-            .catch(
-                (error) => {
-                    console.log(error)
-                }
-            )
+    componentDidMount() {
+        this._isMounted = true
+        this.setState({ loading: true })
+        FirebaseService.list(this.props.firebase.getFirestore(),
+            (disciplinas) => {
+                this._isMounted && this.setState({ disciplinas: disciplinas, loading: false })
+            })
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
     }
 
     montarTabela() {
-        if(!this.state.disciplinas) return
+        if (!this.state.disciplinas) return
+        if (this.state.loading) return this.loadingSpinner()
         return this.state.disciplinas.map(
-            (disciplina, i) => {
-                return <TableRow disciplina={disciplina} key={i}  apagarElementoPorId={this.apagarElementoPorId}/>;
+            (disc, i) => {
+                return <TableRow disciplina={disc}
+                    key={i}
+                    firebase={this.props.firebase} />
             }
         )
     }
 
-    apagarElementoPorId(id){
-        let disciplinasTemp = this.state.disciplinas
-        for(let i=0;i<disciplinasTemp.length;i++){
-            if(disciplinasTemp[i]._id===id){
-                disciplinasTemp.splice(i,1)
-            }
-        }
-        this.setState({disciplinas:disciplinasTemp})
-       }
+    loadingSpinner() {
+        return (
+            <tr style={{ backgroundColor: '#fff' }}>
+                <td colSpan='6'>
+                    <div className="text-center">
+                        <div className="spinner-border ml-auto"
+                            role="status"
+                            aria-hidden="true"
+                            style={{ width: '3rem', height: '3rem' }}></div><br />
+                        <strong>Loading...</strong>
+                    </div>
+                </td>
+            </tr>
+        )
+    }
 
-    render(){
+
+    render() {
         return (
             <div>
                 <p>Listar Disciplinas</p>
-                <table className="table table-striped" style={{marginTop: 20}}>
+                <table className="table table-striped" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Curso</th>
                             <th>Capcidade</th>
-                            <th colSpan="2" style={{textAlign:"center"}}>Ação</th>
+                            <th colSpan="2" style={{ textAlign: "center" }}>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,3 +85,5 @@ export default class List extends Component {
         )
     }
 }
+
+export default ListPage;
