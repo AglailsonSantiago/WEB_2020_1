@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Card from './Card'
-import './Navigate.css'
 import { connect } from 'react-redux'
 
 class Navigate extends Component {
